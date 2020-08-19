@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<style type="text/css">
+	#top_bar
+	{
+		text-align: center;
+		background-color: #add8e6;
+		
+	}
+</style>
+<body>
+<canvas id="canvas">	
+</canvas>
+<div id="top_bar">
+	<button onclick="linewidth()">
+		Line Width
+	</button>
+	<button onclick="erase()">
+		Erase
+	</button>
+	<button onclick="colour()">
+		Colour
+	</button>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+var canvas=document.getElementById("canvas");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+var c=canvas.getContext('2d');
+var paint=0;
+var color="black";
+var line_width=10;
+function colour(){
+	// body...
+	color=prompt("Enter the color in small case letters ","black");
+}
+function linewidth() {
+	// body...
+	line_width=window.prompt("Enter the value for line width ",10);
+}
+function erase() {
+	// body...
+	c.clearRect(0,0,canvas.width,canvas.height);
+}
+
+function starting_point(e) {
+	// body...
+	paint=1;
+	draw_it(e);
+}
+function ending_point()
+{
+	paint=0;
+	c.beginPath();
+}
+function draw_it(e) {
+	// body...
+	if(paint==0)
+		return;
+
+	c.lineWidth=line_width;
+	c.lineCap="round";
+	c.strokeStyle=color;
+	c.lineTo(e.clientX,e.clientY);
+	c.stroke();
+	c.beginPath();
+	c.moveTo(e.clientX,e.clientY);
+}
+canvas.addEventListener('mousedown',starting_point);
+canvas.addEventListener('mouseup',ending_point);
+canvas.addEventListener('mousemove',draw_it);
+
+</script>
